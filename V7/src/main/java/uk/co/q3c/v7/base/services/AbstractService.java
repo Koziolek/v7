@@ -27,21 +27,23 @@ import com.google.common.collect.ImmutableList;
  * depends on Service A, then service B must contain a field referencing Service A, annotated with {@link Dependency}.
  * The following then applies:
  * <ol>
- * <li>option {@link #requiredAtStart()}: If true, Service A will be started automatically before starting Service B. If
- * Service A fails to start, Service B will also fail. If false, Service B will continue to start, and it is up to the
- * developer to ensure that the logic of Service B deals with the the alternative states of Service A. The default is
- * true<br>
+ * <li>option {@link Dependency#requiredAtStart()}: If true, Service A will be started automatically before starting
+ * Service B. If Service A fails to start, Service B will also fail. If false, Service B will continue to start, and it
+ * is up to the developer to ensure that the logic of Service B deals with the the alternative states of Service A. The
+ * default is true<br>
  * <br>
- * <li>option {@link #stopOnStop()}: If true, if Service A fails (or is stopped), Service B will also be stopped, by a
- * call to its stop() method. If false, Service B does not respond to a failure in Service A. The default is true<br>
+ * <li>option {@link Dependency#stopOnStop()}: If true, if Service A fails (or is stopped), Service B will also be
+ * stopped, by a call to its stop() method. If false, Service B does not respond to a failure in Service A. The default
+ * is true<br>
  * <br>
- * <li>option {@link #startOnRestart_true()}: If true, if Service B has a status of DEPENDENCY_FAILED, and Service A is
- * restarted, Service B will automatically attempt to start (it may not succeed if it has other dependencies which have
- * failed). If false, Service B will not respond to this change of status in Service A. The default is true
+ * <li>option {@link Dependency#startOnRestart()}: If true, if Service B has a status of DEPENDENCY_FAILED, and Service
+ * A is restarted, Service B will automatically attempt to start (it may not succeed if it has other dependencies which
+ * have failed). If false, Service B will not respond to this change of status in Service A. The default is true
  * <p>
- * Dedicated start and stop listeners are used to respond to dependencies changing their state to started or stopped
- * respectively, and are used to respond to state changes in dependencies. service change listeners are fired every time
- * there is a change of state (and is used by the {@link ServicesMonitor})<br>
+ * Dedicated start and stop listeners ({@link ServiceStartListener} and {@link ServiceStopListener}) are used to respond
+ * to dependencies changing their state to started or stopped respectively, and are used to respond to state changes in
+ * dependencies. {@link ServiceChangeListener} listeners are fired every time there is a change of state (and is used by
+ * the {@link ServicesMonitor}) <br>
  * 
  * @author David Sowerby
  * 
